@@ -1,11 +1,16 @@
 // src/components/header/Header.tsx
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Head from "next/head";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { Button } from "../ui/button";
+import { File } from "lucide-react";
+import { SiGithub, SiLinkedin } from "react-icons/si";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 /*
   Transparent fixed navbar:
@@ -31,8 +36,8 @@ const defaultTheme: Required<Theme> = {
 const settings = { isSplash: false };
 const greeting = { title: "ANKAN JAGTAP", logo_name: "ANKAN JAGTAP" };
 const seo = { title: "Portfolio", description: "A short portfolio description.", og: { title: "Portfolio", url: "" } };
-const socialMediaLinks = [{ name: "Gmail", link: "mailto:you@example.com" }];
 
+const socialMediaLinks = [{ name: "Gmail", link: "mailto:you@example.com" }];
 function SeoHeader() {
   const mailObj = socialMediaLinks.find((m) => m.link.startsWith("mailto"));
   const mail = mailObj ? mailObj.link.replace(/^mailto:/, "") : "";
@@ -61,8 +66,8 @@ interface Props {
 const Header: React.FC<Props> = ({ theme: providedTheme }) => {
   const theme = { ...defaultTheme, ...(providedTheme ?? {}) };
   const [open, setOpen] = useState(false);
-  const pathname = usePathname() ?? "/home";
-  const link = settings.isSplash ? "/splash" : "/home";
+  const pathname = usePathname() ?? "/";
+  const link = settings.isSplash ? "/splash" : "/";
 
   const navItems = [
     { to: "/", label: "Home" },
@@ -73,19 +78,47 @@ const Header: React.FC<Props> = ({ theme: providedTheme }) => {
     { to: "/#contact", label: "Contact Me" },
   ];
 
-  const isActive = (to: string) => (to === "/home" ? pathname === "/" || pathname === "/home" : pathname.startsWith(to));
+  const [currentHash, setCurrentHash] = useState("");
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setCurrentHash(window.location.hash || "");
+      const onHashChange = () => setCurrentHash(window.location.hash || "");
+      window.addEventListener("hashchange", onHashChange);
+      return () => window.removeEventListener("hashchange", onHashChange);
+    }
+  }, []);
+
+  const isActive = (to: string) => {
+    if (to === "/") {
+      return pathname === "/" || pathname === "/home";
+    }
+    if (to.includes("#")) {
+      const anchor = to.split("#")[1] ? `#${to.split("#")[1]}` : "";
+      return currentHash === anchor;
+    }
+    return pathname === to || pathname.startsWith(to);
+  };
 
   const onMouseEnter = (event: React.MouseEvent<HTMLElement>, color: string) => {
-    (event.currentTarget as HTMLElement).style.backgroundColor = color;
+    const el = event.currentTarget as HTMLElement;
+    // only subtle hover bg (keeps it consistent) — it's not the "active" white anymore
+    if (!el.classList.contains("force-no-active")) el.style.backgroundColor = color;
   };
   const onMouseOut = (event: React.MouseEvent<HTMLElement>) => {
-    (event.currentTarget as HTMLElement).style.backgroundColor = "transparent";
+    const el = event.currentTarget as HTMLElement;
+    if (!el.classList.contains("force-no-active")) el.style.backgroundColor = "transparent";
   };
 
   const containerVariants = {
     hidden: { y: -18, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { duration: 0.65 } },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.5 } },
   };
+
+  const BottomGradient = () => (
+    <>
+      <span className="block transition duration-500 opacity-0 group-hover:opacity-100 absolute h-px w-full -bottom-px inset-x-0 bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+    </>
+  );
 
   return (
     <motion.div initial="hidden" animate="visible" variants={containerVariants}>
@@ -97,65 +130,64 @@ const Header: React.FC<Props> = ({ theme: providedTheme }) => {
         <div
           className="max-w-[90%] mx-auto py-3 md:py-4 px-3 md:px-0 rounded-b-md flex items-center justify-between backdrop-blur-sm"
           style={{
-            backgroundColor: "transparent", // fully transparent
-            color: "#ffffff",
-            // keep subtle border to help separation on some backgrounds (optional)
-            // borderBottom: "1px solid rgba(255,255,255,0.04)"
+            backgroundColor: "transparent",
+            color: theme.text,
           }}
         >
           {/* Logo */}
-          <Link href={link} className="flex items-center gap-2 no-underline">
-            <span className="text-lg font-medium" style={{ color: "#ffffff" }}>
-              &lt;
-            </span>
-            <span className="text-lg font-bold" style={{ color: "#ffffff" }}>
-              {greeting.logo_name}
-            </span>
-            <span className="text-lg font-medium" style={{ color: "#ffffff" }}>
-              /&gt;
-            </span>
-          </Link>
+         <Link href={link} className="flex items-center gap-2 no-underline"> <span className="text-lg font-medium" style={{ color: "#ffffff" }}> &lt; </span> <span className="text-lg font-bold" style={{ color: "#ffffff" }}> {greeting.logo_name} </span> <span className="text-lg font-medium" style={{ color: "#ffffff" }}> /&gt; </span> </Link>
 
           {/* Hamburger (mobile) */}
-          <button
+          <Button
             aria-label="Toggle menu"
             aria-expanded={open}
             className="md:hidden p-2 rounded focus:outline-none"
             onClick={() => setOpen((s) => !s)}
-            style={{ color: "#ffffff" }}
+            style={{ color: theme.text }}
           >
-            <div className="w-5 h-5 relative">
+            <div className="w-6 h-5 relative">
               <span
                 className={`block absolute left-0 right-0 h-[2px] top-1 transition-transform duration-200 ${open ? "rotate-45 top-2.5" : ""}`}
-                style={{ background: "#ffffff" }}
+                style={{ background: theme.text }}
               />
               <span
                 className={`block absolute left-0 right-0 h-[2px] top-2.5 transition-opacity duration-200 ${open ? "opacity-0" : ""}`}
-                style={{ background: "#ffffff" }}
+                style={{ background: theme.text }}
               />
               <span
                 className={`block absolute left-0 right-0 h-[2px] top-4 transition-transform duration-200 ${open ? "-rotate-45 top-2.5" : ""}`}
-                style={{ background: "#ffffff" }}
+                style={{ background: theme.text }}
               />
             </div>
-          </button>
+          </Button>
 
           {/* Desktop nav */}
           <nav className="hidden md:block">
-            <ul className="flex items-center gap-3 list-none m-0">
-              {navItems.map((item) => (
-                <li key={item.to}>
-                  <Link
-                    href={item.to}
-                    className={`px-4 py-2 block rounded ${isActive(item.to) ? "font-semibold" : "font-medium"} text-white`}
-                    onMouseEnter={(e: any) => onMouseEnter(e, theme.highlight)}
-                    onMouseLeave={(e: any) => onMouseOut(e)}
-                    style={{ textDecoration: "none" }}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+            <ul className="flex items-center gap-4 md:gap-6 m-0 p-0 list-none">
+              {navItems.map((item) => {
+                const active = isActive(item.to);
+                const sharedRounded = "rounded transition-transform duration-150 select-none";
+                const normalClasses = "font-medium text-white hover:-translate-y-0.5";
+                 return (
+                  <li key={item.to}>
+                    <Link href={item.to} legacyBehavior>
+                      <a
+                        onMouseEnter={(e) => onMouseEnter(e as any, theme.highlight)}
+                        onMouseLeave={(e) => onMouseOut(e as any)}
+                        className="no-underline"
+                      >
+                        <Button
+                          variant={"outline"}
+                          // larger padding and keep consistent visual style for all items
+                          className={`${sharedRounded} ${normalClasses} px-5 py-2`}
+                        >
+                          {item.label}
+                        </Button>
+                      </a>
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </nav>
         </div>
@@ -170,22 +202,37 @@ const Header: React.FC<Props> = ({ theme: providedTheme }) => {
             WebkitBackdropFilter: "blur(6px)",
           }}
         >
-          <div className="max-w-[90%] mx-auto py-2">
-            <ul className="list-none m-0 p-0">
-              {navItems.map((item) => (
-                <li key={item.to}>
-                  <Link
-                    href={item.to}
-                    className={`block px-4 py-3 rounded ${isActive(item.to) ? "font-semibold" : "font-medium"} text-white`}
-                    onMouseEnter={(e: any) => onMouseEnter(e, theme.highlight)}
-                    onMouseLeave={(e: any) => onMouseOut(e)}
-                    onClick={() => setOpen(false)}
-                    style={{ textDecoration: "none" }}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+          <div className="max-w-[75%] mx-auto py-2">
+            <ul className="list-none m-0 p-0 flex flex-col gap-3">
+              {navItems.map((item) => {
+                return (
+                  <li key={item.to}>
+                    <Link href={item.to} legacyBehavior>
+                      <a onClick={() => setOpen(false)}>
+                        <Button
+                          variant={"outline"}
+                          className="w-full text-left px-4 py-3 rounded text-white"
+                          onMouseEnter={(e) => onMouseEnter(e as any, theme.highlight)}
+                          onMouseLeave={(e) => onMouseOut(e as any)}
+                        >
+                          {item.label}
+                        </Button>
+                      </a>
+                    </Link>
+                  </li>
+                );
+              })}
+
+              {/* Hire Me (mobile) */}
+              <li>
+                <Link href="/#contact" legacyBehavior>
+                  <a onClick={() => setOpen(false)}>
+                    <Button variant={"outline"} className="w-full px-4 py-3">
+                      Hire Me
+                    </Button>
+                  </a>
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

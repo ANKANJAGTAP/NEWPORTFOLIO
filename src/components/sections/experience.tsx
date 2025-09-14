@@ -21,20 +21,19 @@ type Experience = {
 
 const experiences: Experience[] = [
   {
-    role: "Senior Frontend Engineer",
-    company: "Acme Corp",
-    range: "2023 — Present",
+    role: "Software Developer Intern",
+    company: "BUILDZEROCLUB",
+    range: "Dec 2024 - Feb 2025",
     bullets: [
-      "Led UI architecture and component library for marketing and dashboard apps.",
-      "Improved bundle size by 30% through route-level code splitting and tree-shaking.",
-      "Mentored 4 engineers; introduced design tokens & accessible patterns.",
+      "Built core REST APIs (auth, CRUD ideas, agents launch, calls scheduling/transcripts, billing)and instrumented analytics with PostHog.",
+      "Designed Postgres schema + Redis caching and S3 storage for recordings; reduced DB load by 70% and added full-text search.",
     ],
-    stack: ["React", "Next.js", "TypeScript", "Tailwind", "Cypress"],
+    stack: ["PostHog, Next.js, React, PostgreSQL, Redis, S3, Docker, AWS (ECS/EKS), Vercel,GitHub Actions, Jest, Background workers"],
   },
   {
-    role: "Fullstack Engineer",
-    company: "Bright Studio",
-    range: "2020 — 2023",
+    role: "Main Web Developer",
+    company: "WCE ACSES",
+    range: "2024 — Present",
     bullets: [
       "Built performant dashboards with real-time updates.",
       "Owned API design, auth, and deployment pipelines (Docker + CI).",
@@ -42,14 +41,15 @@ const experiences: Experience[] = [
     stack: ["Node.js", "GraphQL", "Postgres", "Redis"],
   },
   {
-    role: "Frontend Engineer",
-    company: "Indie Labs",
-    range: "2018 — 2020",
+    role: "Main Editor",
+    company: "WCE WLUG",
+    range: "2024 — 2025",
     bullets: [
-      "Converted legacy pages to a component-driven system.",
-      "Added end-to-end tests and automated visual regression checks.",
+      "Worked with Docker to containerize applications and manage environments.",
+      "Explored Kubernetes for orchestrating and scaling containerized applications.",
+      "Learned CI/CD pipelines to automate builds, testing, and deployments."
     ],
-    stack: ["React", "Jest", "Storybook"],
+    stack: ["Linux fundamentals", "Docker", "Kubernetes","CI/CD pipelines","Jenkins","GitHub Actions"],
   },
 ];
 

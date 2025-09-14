@@ -133,7 +133,7 @@ const STATES = {
   education: {
     desktop: {
       scale: { x: 0.34, y: 0.34, z: 0.34 },
-      position: { x: -700, y: 0, z: 0 }, // pushed further right for right-most column on desktop
+      position: { x: -700, y: 200, z: 0 }, // pushed further right for right-most column on desktop
       rotation: {
         x: 0,
         y: Math.PI / 10,

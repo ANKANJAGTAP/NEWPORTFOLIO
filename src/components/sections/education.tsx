@@ -21,28 +21,7 @@ type Education = {
 };
 
 const educationList: Education[] = [
-  {
-    degree: "S.S.C. (10th)",
-    institution: "ABC High School, Pune",
-    range: "2014 — 2016",
-    bullets: [
-      "Completed secondary education with a strong foundation in Mathematics and Science.",
-      "Board: State Board — Percentage: 92% (example)",
-    ],
-    subjects: ["Mathematics", "Science", "English"],
-    grade: "92%",
-  },
-  {
-    degree: "H.S.C. (12th)",
-    institution: "ABC Junior College, Pune",
-    range: "2016 — 2018",
-    bullets: [
-      "Focused on Computer Science and Mathematics stream.",
-      "Participated in inter-college coding competitions and tech fests.",
-    ],
-    subjects: ["Computer Science", "Mathematics", "Physics"],
-    grade: "88%",
-  },
+
   {
     degree: "B.Tech — Computer Science",
     institution: "Walchand College of Engineering, Sangli",
@@ -52,8 +31,32 @@ const educationList: Education[] = [
       "Active in college tech clubs and open-source contributions.",
     ],
     subjects: ["Data Structures", "Algorithms", "Databases", "OS"],
-    grade: "CGPA: 9.0 (example)",
+    grade: "CGPA: 7.81/10 (ongoing)",
   },
+   {
+    degree: "H.S.C. (12th)",
+    institution: "Vinayak Vidyamandir College, Amravati",
+    range: "2021 — 2023",
+    bullets: [
+      "Focused on Computer Science and Mathematics stream.",
+      "Participated in inter-college coding competitions and tech fests.",
+    ],
+    subjects: ["Computer Science", "Mathematics", "Physics"],
+    grade: "84%",
+  },
+  {
+    degree: "S.S.C. (10th)",
+    institution: "Golden Kids English High School, Amravati",
+    range: "2020 — 2021",
+    bullets: [
+      "Completed secondary education with a strong foundation in Mathematics and Science.",
+      "Board: State Board — Percentage: 80% ",
+    ],
+    subjects: ["Mathematics", "Science", "English"],
+    grade: "80%",
+  },
+ 
+  
 ];
 
 const Chip: React.FC<{ children: React.ReactNode }> = ({ children }) => (
