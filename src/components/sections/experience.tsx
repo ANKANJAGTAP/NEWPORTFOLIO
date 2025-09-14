@@ -113,7 +113,7 @@ const ExperienceSection: React.FC = () => {
         <div className="w-full">
           <Card className="bg-white/70 dark:bg-black/70 backdrop-blur-sm rounded-xl p-0 overflow-visible">
             <CardHeader>
-              <CardTitle className="text-3xl">Where I've Worked</CardTitle>
+              <CardTitle className="text-3xl"><h2>{"Where I've Worked"}</h2></CardTitle>
               <CardDescription>
                 Selected roles, projects and responsibilities. Hover cards for more detail.
               </CardDescription>
