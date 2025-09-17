@@ -53,35 +53,18 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
 
   // SETUP SOCKET.IO
   useEffect(() => {
-    const username = localStorage.getItem("username") || generateRandomCursor().name;
-
-    // Force fallback to local socket server if env var missing
-    const wsUrl = process.env.NEXT_PUBLIC_WS_URL || "http://localhost:3001";
-    console.log("Socket.IO connecting to:", wsUrl);
-
-    const socket = io(wsUrl, {
+    const username =  localStorage.getItem("username") || generateRandomCursor().name
+    const socket = io(process.env.NEXT_PUBLIC_WS_URL!, {
       query: { username },
-      // try websocket only (avoid polling requests hitting wrong server)
-      transports: ["websocket"],
-      // if your server uses a custom path, set it here:
-      // path: "/socket.io",
-      autoConnect: true,
     });
-
     setSocket(socket);
-    socket.on("connect", () => {
-      console.log("socket connected", socket.id);
-    });
+    socket.on("connect", () => {});
     socket.on("msgs-receive-init", (msgs) => {
       setMsgs(msgs);
     });
-    socket.on("msg-receive", (msg) => {
-      setMsgs((p) => [...p, msg]);
+    socket.on("msg-receive", (msgs) => {
+      setMsgs((p) => [...p, msgs]);
     });
-    socket.on("connect_error", (err: any) => {
-      console.warn("socket connect_error", err);
-    });
-
     return () => {
       socket.disconnect();
     };
@@ -95,5 +78,3 @@ const SocketContextProvider = ({ children }: { children: ReactNode }) => {
 };
 
 export default SocketContextProvider;
-
-// NOTE: server code removed — run a separate server file instead of embedding it here.
