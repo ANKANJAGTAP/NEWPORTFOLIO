@@ -7,6 +7,8 @@ import PortfolioIamges from "../../../public/assets/projects-screenshots/landing
 import ActionImage from "../../../public/assets/projects-screenshots/ActionArena.png"
 import Luxride from "../../../public/assets/projects-screenshots/LuxRide.png"
 import OutFyld from "../../../public/assets/projects-screenshots/outfyld.png"
+import GhostChart from "../../../public/assets/projects-screenshots/ghostchat/1.png"
+import JUNTA from "../../../public/assets/projects-screenshots/jra/1.png"
 
 // Hardcoded projects
 const projects = [
@@ -41,14 +43,14 @@ const projects = [
   {
     title: "GhostChat",
     category: "Anonymous chat",
-    src: "/projects/ghostchat.png",
+    src: GhostChart,
     live: "https://ghostchat.com",
     github: "https://github.com/ankan/ghostchat",
   },
   {
     title: "JNTUA Results Analyzer",
     category: "Result analyzer",
-    src: "/projects/jntua.png",
+    src: JUNTA,
     live: "https://jntua-analyzer.com",
     github: "https://github.com/ankan/jntua",
   },
